@@ -31,7 +31,7 @@ int main() {
 
     while(1) {
         menu();
-        printf("Enter choice: ");
+        printf("Enter choice: \n");
         scanf("%d", &choice);
 
         switch(choice) {
@@ -201,3 +201,4 @@ void loadFromFile() {
     printf("Records loaded successfully!\n");
 
 }
+
