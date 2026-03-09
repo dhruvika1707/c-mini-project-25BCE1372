@@ -31,7 +31,7 @@ int main() {
 
     while(1) {
         menu();
-        printf("Enter choice: ");
+        printf("Enter choice: \n");
         scanf("%d", &choice);
 
         switch(choice) {
@@ -77,16 +77,16 @@ void menu() {
 void addEmployee() {
     struct Employee e;
 
-    printf("\nEnter Employee ID: ");
+    printf("\nEnter Employee ID: \n ");
     scanf("%d", &e.id);
 
-    printf("Enter Name: ");
+    printf("Enter Name: \n");
     scanf("%s", e.name);
 
-    printf("Enter Basic Pay: ");
+    printf("Enter Basic Pay: \n");
     scanf("%f", &e.basicPay);
 
-    printf("Enter OT Hours: ");
+    printf("Enter OT Hours: \n");
     scanf("%d", &e.otHours);
 
     calculateSalary(&e);
@@ -117,7 +117,7 @@ void calculateSalary(struct Employee *e) {
 void displayPayslip() {
 
     int id, i;
-    printf("Enter Employee ID: ");
+    printf("Enter Employee ID: \n");
     scanf("%d", &id);
 
     for(i = 0; i < count; i++) {
@@ -195,4 +195,5 @@ void loadFromFile() {
     fclose(fp);
 
     printf("Records loaded successfully!\n");
+
 }
