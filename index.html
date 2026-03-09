@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>Payroll Management System</title>
+
+<style>
+
+body{
+    font-family: Georgia, serif;
+    background:#e7f5ef;
+    margin:0;
+}
+
+/* Main container */
+
+.container{
+    width:650px;
+    margin:auto;
+    margin-top:80px;
+    background:#065f46;
+    border-radius:16px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.2);
+    padding:30px;
+}
+
+/* Title */
+
+.title{
+    color:white;
+    text-align:center;
+    font-size:36px;
+    margin-bottom:25px;
+}
+
+/* Console area */
+
+.console{
+    background:#d1fae5;
+    color:#064e3b;
+    padding:20px;
+    border-radius:10px;
+    height:260px;
+    overflow:auto;
+    font-family: monospace;
+    line-height:1.6;
+}
+
+/* Footer */
+
+.footer{
+    text-align:center;
+    color:#d1fae5;
+    margin-top:15px;
+    font-size:14px;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+<div class="title">
+Payroll Management System
+</div>
+
+<div id="output" class="console"></div>
+
+<div class="footer">
+. c-mini-project .
+</div>
+
+</div>
+
+
+<script>
+
+var Module = {
+
+print: function(text){
+    document.getElementById("output").innerHTML += text + "<br>";
+},
+
+printErr: function(text){
+    document.getElementById("output").innerHTML += text + "<br>";
+}
+
+};
+
+</script>
+
+
+<script src="index.js"></script>
+
+</body>
+
+</html>
