@@ -78,15 +78,19 @@ void addEmployee() {
     struct Employee e;
 
     printf("\nEnter Employee ID: ");
+    fflush(stdout);
     scanf("%d", &e.id);
 
     printf("Enter Name: ");
+    fflush(stdout);
     scanf("%s", e.name);
 
     printf("Enter Basic Pay: ");
+    fflush(stdout);
     scanf("%f", &e.basicPay);
 
     printf("Enter OT Hours: ");
+    fflush(stdout);
     scanf("%d", &e.otHours);
 
     calculateSalary(&e);
@@ -195,4 +199,5 @@ void loadFromFile() {
     fclose(fp);
 
     printf("Records loaded successfully!\n");
+
 }
