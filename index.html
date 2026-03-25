@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payroll Management System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ═══════════ SIDEBAR / MENU ═══════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">💰</div>
+      <h1>PayRoll</h1>
+      <p>Management System v1.0</p>
+    </div>
+
+    <div class="nav-label">Main</div>
+    <button class="nav-btn active" data-panel="dashboard" onclick="switchPanel('dashboard')">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2"/></svg>
+      Dashboard
+    </button>
+    <button class="nav-btn" data-panel="all" onclick="switchPanel('all')">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke-width="2"/><circle cx="9" cy="7" r="4" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke-width="2"/><path d="M16 3.13a4 4 0 0 1 0 7.75" stroke-width="2"/></svg>
+      All Employees
+    </button>
+
+    <div class="nav-label">Functions</div>
+    <button class="nav-btn" data-panel="add" onclick="switchPanel('add')">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><line x1="12" y1="8" x2="12" y2="16" stroke-width="2"/><line x1="8" y1="12" x2="16" y2="12" stroke-width="2"/></svg>
+      Add Employee
+    </button>
+    <button class="nav-btn" data-panel="payslip" onclick="switchPanel('payslip')">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/><polyline points="14 2 14 8 20 8" stroke-width="2"/><line x1="16" y1="13" x2="8" y2="13" stroke-width="2"/><line x1="16" y1="17" x2="8" y2="17" stroke-width="2"/><polyline points="10 9 9 9 8 9" stroke-width="2"/></svg>
+      Generate Payslip
+    </button>
+    <button class="nav-btn" data-panel="update" onclick="switchPanel('update')">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-width="2"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="2"/></svg>
+      Update Employee
+    </button>
+
+    <div class="nav-label">Records</div>
+    <button class="nav-btn" data-panel="files" onclick="switchPanel('files')">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke-width="2"/><polyline points="7 10 12 15 17 10" stroke-width="2"/><line x1="12" y1="15" x2="12" y2="3" stroke-width="2"/></svg>
+      Save / Load Records
+    </button>
+    <button class="nav-btn danger" data-panel="delete" onclick="switchPanel('delete')">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6" stroke-width="2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" stroke-width="2"/><path d="M10 11v6M14 11v6" stroke-width="2"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" stroke-width="2"/></svg>
+      Delete Employee
+    </button>
+
+    <div class="sidebar-footer">OT Rate: ₹200/hr &nbsp;|&nbsp; Tax: 5/10/15%</div>
+  </aside>
+
+  <!-- ═══════════ MAIN CONTENT ═══════════ -->
+  <main class="main">
+
+    <!-- ─── DASHBOARD ─── -->
+    <section class="panel active" id="panel-dashboard">
+      <div class="panel-header">
+        <div class="tag">// Overview</div>
+        <h2>Dashboard</h2>
+        <p>Real-time payroll overview and quick stats.</p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Total Employees</div>
+          <div class="stat-value"><span id="stat-total">0</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Net Payroll</div>
+          <div class="stat-value"><span id="stat-payroll">₹0.00</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Gross Payroll</div>
+          <div class="stat-value"><span id="stat-gross">₹0.00</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;">Recent Employees</div>
+          <button class="btn btn-secondary" onclick="switchPanel('all')" style="padding:8px 16px;font-size:11px;">View All →</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>ID</th><th>Name</th><th>Basic Pay</th><th>OT Hrs</th><th>Gross Pay</th><th>Net Pay</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="emp-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── ALL EMPLOYEES ─── -->
+    <section class="panel" id="panel-all">
+      <div class="panel-header">
+        <div class="tag">// Employees</div>
+        <h2>All Employees</h2>
+        <p>Browse, search and manage all employee records.</p>
+      </div>
+
+      <div class="search-bar">
+        <input id="emp-search" class="form-input" placeholder="Search by name or ID..." />
+        <button class="btn btn-primary" onclick="switchPanel('add')">+ Add New</button>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>ID</th><th>Name</th><th>Basic Pay</th><th>OT Hrs</th><th>Gross Pay</th><th>Net Pay</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="emp-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── ADD EMPLOYEE ─── -->
+    <section class="panel" id="panel-add">
+      <div class="panel-header">
+        <div class="tag">// addEmployee()</div>
+        <h2>Add Employee</h2>
+        <p>Enter details below. Salary is auto-calculated using calculateSalary().</p>
+      </div>
+
+      <div class="card">
+        <form id="add-form">
+          <div style="margin-bottom:20px;padding:12px 16px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);font-size:12px;color:var(--muted);">
+            <span id="preview-id" style="color:var(--accent);">Auto ID: #1001</span>
+            &nbsp;·&nbsp; OT Rate: ₹200/hr
+            &nbsp;·&nbsp; Tax Slabs: &lt;₹20k → 5% | ₹20–40k → 10% | &gt;₹40k → 15%
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group full">
+              <label class="form-label">Employee Name</label>
+              <input id="add-name" class="form-input" placeholder="e.g. Arjun Sharma" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Basic Pay (₹)</label>
+              <input id="add-basic" class="form-input" type="number" min="0" step="0.01" placeholder="e.g. 25000" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Overtime Hours</label>
+              <input id="add-ot" class="form-input" type="number" min="0" value="0" placeholder="e.g. 5" required />
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <div style="display:flex;gap:12px;">
+            <button type="submit" class="btn btn-primary">✔ Add Employee</button>
+            <button type="reset" class="btn btn-secondary">Clear</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Tax slab reference -->
+      <div class="card" style="border-style:dashed;">
+        <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:14px;color:var(--muted);">Salary Calculation Logic (calculateSalary)</div>
+        <div style="font-size:12px;color:var(--muted);line-height:2;font-family:'JetBrains Mono',monospace;">
+          grossPay = basicPay + (otHours × ₹200)<br>
+          tax = grossPay &lt; ₹20,000 → 5%<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grossPay ≤ ₹40,000 → 10%<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grossPay &gt; ₹40,000 → 15%<br>
+          netPay = grossPay − tax
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── GENERATE PAYSLIP ─── -->
+    <section class="panel" id="panel-payslip">
+      <div class="panel-header">
+        <div class="tag">// displayPayslip()</div>
+        <h2>Generate Payslip</h2>
+        <p>Select an employee to view and print their payslip.</p>
+      </div>
+
+      <div class="card" style="max-width:560px;">
+        <div class="form-group" style="margin-bottom:20px;">
+          <label class="form-label">Select Employee</label>
+          <select id="payslip-id" class="form-input">
+            <option value="">— Select Employee —</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="window.print()">🖨 Print Payslip</button>
+      </div>
+
+      <div id="payslip-output"></div>
+    </section>
+
+    <!-- ─── UPDATE EMPLOYEE ─── -->
+    <section class="panel" id="panel-update">
+      <div class="panel-header">
+        <div class="tag">// updateEmployee()</div>
+        <h2>Update Employee</h2>
+        <p>Select an employee to edit their information. Salary recalculates automatically.</p>
+      </div>
+
+      <div class="card">
+        <form id="update-form">
+          <div class="form-group" style="margin-bottom:20px;">
+            <label class="form-label">Select Employee to Update</label>
+            <select id="update-id-select" class="form-input">
+              <option value="">— Select Employee —</option>
+            </select>
+          </div>
+
+          <div class="form-grid" id="update-fields" style="display:none;">
+            <div class="form-group full">
+              <label class="form-label">New Name</label>
+              <input id="upd-name" class="form-input" placeholder="Employee name" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">New Basic Pay (₹)</label>
+              <input id="upd-basic" class="form-input" type="number" min="0" step="0.01" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">New OT Hours</label>
+              <input id="upd-ot" class="form-input" type="number" min="0" />
+            </div>
+          </div>
+
+          <div id="update-submit-wrap" style="display:none;gap:12px;margin-top:20px;">
+            <button type="submit" class="btn btn-purple">✔ Update Employee</button>
+            <button type="button" class="btn btn-secondary" onclick="clearUpdateForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ─── SAVE / LOAD RECORDS ─── -->
+    <section class="panel" id="panel-files">
+      <div class="panel-header">
+        <div class="tag">// saveToFile() &amp; loadFromFile()</div>
+        <h2>Save / Load Records</h2>
+        <p>Persist employee data to local storage and download as JSON, or upload a saved file.</p>
+      </div>
+
+      <div class="file-actions">
+        <div class="file-card">
+          <h4>💾 Save Records</h4>
+          <p>Saves all employees to browser storage and downloads a <code>employees.json</code> file to your device.</p>
+          <button class="btn btn-primary" onclick="saveToFile()">Save to File</button>
+        </div>
+
+        <div class="file-card">
+          <h4>📂 Load from Storage</h4>
+          <p>Restores employee records from the browser's local storage (last saved session).</p>
+          <button class="btn btn-purple" onclick="loadFromFile()">Load Records</button>
+        </div>
+
+        <div class="file-card">
+          <h4>📤 Upload JSON File</h4>
+          <p>Upload a previously saved <code>employees.json</code> file to restore records.</p>
+          <label class="btn btn-secondary" style="cursor:pointer;">
+            Choose File
+            <input type="file" id="file-upload" accept=".json" style="display:none;" />
+          </label>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:24px;">
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;">Current Session</div>
+        <div style="font-size:12px;color:var(--muted);">
+          Employees in memory: <span id="stat-total2" style="color:var(--accent);font-weight:600;">—</span>
+          &nbsp;·&nbsp;
+          Auto-save: Records persist in <code>localStorage</code> between page reloads.
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── DELETE EMPLOYEE ─── -->
+    <section class="panel" id="panel-delete">
+      <div class="panel-header">
+        <div class="tag">// deleteEmployee()</div>
+        <h2>Delete Employee</h2>
+        <p>Permanently remove an employee record. This action cannot be undone.</p>
+      </div>
+
+      <div class="card">
+        <div id="delete-list"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ─── Toast Container ─── -->
+<div id="toast-container"></div>
+
+<!-- ─── Edit Modal ─── -->
+<div class="modal-overlay" id="edit-modal" onclick="if(event.target===this)closeEditModal()">
+  <div class="modal">
+    <h3>✏️ Edit Employee</h3>
+    <form id="edit-form">
+      <input type="hidden" id="edit-emp-id" />
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">Name</label>
+          <input id="edit-name" class="form-input" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Basic Pay (₹)</label>
+          <input id="edit-basic" class="form-input" type="number" min="0" step="0.01" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">OT Hours</label>
+          <input id="edit-ot" class="form-input" type="number" min="0" required />
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+        <button type="submit" class="btn btn-purple">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ─── Delete Confirm Modal ─── -->
+<div class="modal-overlay" id="del-modal" onclick="if(event.target===this)closeDelModal()">
+  <div class="modal">
+    <h3 style="color:var(--danger);">🗑 Confirm Delete</h3>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6;">
+      Are you sure you want to delete <strong id="del-name" style="color:var(--text);"></strong>?<br>
+      This action mirrors <code>deleteEmployee()</code> and cannot be undone.
+    </p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeDelModal()">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmDeleteAction()">Delete Employee</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+
+<!-- Keep the two tbodies in sync (dashboard + all-employees share the same data) -->
+<script>
+  // Patch: "all employees" panel has its own tbody — wire it up properly
+  // Both panels render from the same renderTable() call via innerHTML assignment
+  // We fix this by ensuring the dashboard tbody and the all-employees tbody
+  // are distinct. renderTable() targets #emp-tbody — we make both panels
+  // use a unique ID and re-render both.
+
+  const _orig_renderTable = renderTable;
+  window.renderTable = function(filter = '') {
+    // Render for "All Employees" panel
+    const tbody2 = document.getElementById('emp-tbody-all');
+    const tbody1 = document.getElementById('emp-tbody');
+    const filtered = employees.filter(e =>
+      e.name.toLowerCase().includes((filter || '').toLowerCase()) ||
+      String(e.id).includes(filter || '')
+    );
+
+    const buildRows = (list) => {
+      if (list.length === 0) return `<tr><td colspan="7">
+        <div class="empty-state"><div class="empty-icon">📋</div><p>No employees found.<br>Add one using the sidebar.</p></div>
+      </td></tr>`;
+      return list.map(e => `
+        <tr>
+          <td class="td-id">#${e.id}</td>
+          <td class="td-name">${e.name}</td>
+          <td>${formatCurrency(e.basicPay)}</td>
+          <td>${e.otHours} hrs</td>
+          <td>${formatCurrency(e.grossPay)}</td>
+          <td class="td-pay">${formatCurrency(e.netPay)}</td>
+          <td><div class="td-actions">
+            <button class="icon-btn view" title="View Payslip" onclick="quickPayslip(${e.id})">👁</button>
+            <button class="icon-btn edit" title="Edit" onclick="openEditModal(${e.id})">✏️</button>
+            <button class="icon-btn del" title="Delete" onclick="confirmDelete(${e.id})">🗑</button>
+          </div></td>
+        </tr>`).join('');
+    };
+
+    // Dashboard shows all (no filter on dashboard)
+    if (tbody1) tbody1.innerHTML = buildRows(employees.slice(-5).reverse());
+    if (tbody2) tbody2.innerHTML = buildRows(filtered);
+    document.getElementById('stat-total2').textContent = employees.length;
+  };
+</script>
+
+<!-- Patch: replace the second tbody id -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Find the tbody inside panel-all and give it a unique id
+    const allPanel = document.getElementById('panel-all');
+    if (allPanel) {
+      const tb = allPanel.querySelector('tbody');
+      if (tb) tb.id = 'emp-tbody-all';
+    }
+    refreshUI();
+  });
+</script>
+</body>
+</html>
